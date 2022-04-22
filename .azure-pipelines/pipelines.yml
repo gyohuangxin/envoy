@@ -24,6 +24,9 @@ stages:
         path: $(Build.StagingDirectory)/repository_cache
       continueOnError: true
 
+    - script: lscpu
+      displayName: "Machine cpu info"
+    
     - script: ci/run_envoy_docker.sh 'ci/do_ci.sh format_pre'
       workingDirectory: $(Build.SourcesDirectory)
       env:
