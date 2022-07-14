@@ -73,11 +73,8 @@ SgxPrivateKeyMethodProvider::SgxPrivateKeyMethodProvider(
     Server::Configuration::TransportSocketFactoryContext& factory_context, const SgxSharedPtr& sgx)
     : api_(factory_context.api()),
       tls_(ThreadLocal::TypedSlot<ThreadLocalData>::makeUnique(factory_context.threadLocal())),
-      sgx_library_(config.sgx_library()), key_label_(config.key_label()),
-      usr_pin_(config.usr_pin()), so_pin_(config.so_pin()), token_label_(config.token_label()),
-      stage_(config.stage()), key_type_(config.key_type()), rsa_key_size_(config.rsa_key_size()),
-      ecdsa_key_param_(config.ecdsa_key_param()), csr_config_(config.csr_config()),
-      quote_key_(config.quote_key()), quotepub_key_(config.quotepub_key()) {
+      sgx_library_(config.sgx_library()), key_id_(config.key_label()),
+      usr_pin_(config.usr_pin()), so_pin_(config.so_pin()), token_label_(config.token_label()) {
 
   private_key_ = 0;
   public_key_ = 0;
@@ -85,25 +82,18 @@ SgxPrivateKeyMethodProvider::SgxPrivateKeyMethodProvider(
   ENVOY_LOG(debug,
             "sgx private key provider: Configurations:"
             "sgx_library_({}), "
-            "key_label_({}), "
+            "key_id_({}), "
             "usr_pin_({}), "
             "so_pin_({}), "
             "token_label_({}), "
-            "stage_({}), "
-            "key_type_({}), "
-            "rsa_key_size_({}), "
-            "ecdsa_key_param_({}), "
-            "csr_config_({}), "
-            "quote_key_({}), "
-            "quotepub_key_({}), ",
-            sgx_library_, key_label_, usr_pin_, so_pin_, token_label_, stage_, key_type_,
-            rsa_key_size_, ecdsa_key_param_, csr_config_, quote_key_, quotepub_key_);
+            sgx_library_, key_id_, usr_pin_, so_pin_, token_label_);
 
-  if (!isValidString(key_label_) || !isValidString(usr_pin_) || !isValidString(so_pin_) ||
-      !isValidString(token_label_) || !isValidString(stage_) || !isValidString(key_type_) ||
-      !isValidString(rsa_key_size_) || !isValidString(ecdsa_key_param_)) {
+  if (!isValidString(key_id_) || !isValidString(usr_pin_) || !isValidString(so_pin_) ||
+      !isValidString(token_label_) {
     throw EnvoyException("The configs can only contain 'a-zA-Z0-9', '-', '_', '/' or '='.");
   }
+
+ // TODO: Get key type from cert.
 
   method_ = std::make_shared<SSL_PRIVATE_KEY_METHOD>();
   if (key_type_ == "rsa") {

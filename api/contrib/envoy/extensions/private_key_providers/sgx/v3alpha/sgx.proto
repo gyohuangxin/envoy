@@ -20,7 +20,6 @@ message SgxPrivateKeyMethodConfig {
   string sgx_library = 1;
 
   // ID of the key pair.
-
   string key_id = 2;
 
   // User PIN.

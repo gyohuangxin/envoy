@@ -10,7 +10,6 @@
 
 #include "contrib/envoy/extensions/private_key_providers/sgx/v3alpha/sgx.pb.h"
 #include "contrib/sgx/private_key_providers/source/sgx.h"
-#include "contrib/sgx/private_key_providers/source/sgx_grpc.h"
 #include "contrib/sgx/private_key_providers/source/utility.h"
 
 namespace Envoy {
@@ -90,18 +89,10 @@ private:
                     const SgxSharedPtr& sgx, Event::Dispatcher& d);
   };
 
-  void initializeRpc(const SgxPrivateKeyMethodConfig& config,
-                     TransportSocketFactoryContext& private_key_provider_context);
+  // TODO: implement it
+  void findKeyPair();
 
   void initializeSgxEnclave();
-
-  void initializeKeypair();
-
-  void createCSR();
-
-  void createQuote();
-
-  void sendCSRandQuote();
 
   void initialize(const SgxPrivateKeyMethodConfig& config,
                   TransportSocketFactoryContext& private_key_provider_context);
@@ -114,20 +105,10 @@ private:
 
   // Resources related to PKCS11 & SGX
   std::string sgx_library_;
-  std::string key_label_;
+  std::string key_id_;
   std::string usr_pin_;
   std::string so_pin_;
   std::string token_label_;
-  std::string stage_;
-  std::string key_type_;
-  std::string rsa_key_size_;
-  std::string ecdsa_key_param_;
-  std::string csr_config_;
-
-  std::string quote_;
-  std::string quotepub_;
-  std::string quote_key_;
-  std::string quotepub_key_;
 
   // related to SGX
   SgxContextSharedPtr sgx_context_;
@@ -135,9 +116,6 @@ private:
   // related to key pair
   CK_OBJECT_HANDLE private_key_;
   CK_OBJECT_HANDLE public_key_;
-
-  GrpcClientImplPtr client_;
-  Grpc::AsyncStream<CsrAndQuoteRequest> stream_;
 };
 
 } // namespace Sgx

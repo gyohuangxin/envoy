@@ -15,13 +15,11 @@ envoy_cc_library(
         "controlplane.cc",
         "dataplane.cc",
         "sgx.cc",
-        "sgx_grpc.cc",
         "sgx_private_key_provider.cc",
         "utility.cc",
     ],
     hdrs = [
         "sgx.h",
-        "sgx_grpc.h",
         "sgx_private_key_provider.h",
         "utility.h",
     ],

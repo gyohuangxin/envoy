@@ -27,6 +27,10 @@ void SgxPrivateKeyMethodProvider::initializeSgxEnclave() {
   }
 }
 
+void SgxPrivateKeyMethodProvider::findKeyPair() {
+
+}
+
 void SgxPrivateKeyMethodProvider::initialize(
     const envoy::extensions::private_key_providers::sgx::v3alpha::SgxPrivateKeyMethodConfig& config,
     Server::Configuration::TransportSocketFactoryContext& context) {
