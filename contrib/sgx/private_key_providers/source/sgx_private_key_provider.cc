@@ -73,7 +73,7 @@ SgxPrivateKeyMethodProvider::SgxPrivateKeyMethodProvider(
     Server::Configuration::TransportSocketFactoryContext& factory_context, const SgxSharedPtr& sgx)
     : api_(factory_context.api()),
       tls_(ThreadLocal::TypedSlot<ThreadLocalData>::makeUnique(factory_context.threadLocal())),
-      sgx_library_(config.sgx_library()), key_id_(config.key_label()),
+      sgx_library_(config.sgx_library()), key_id_(config.key_id()),
       usr_pin_(config.usr_pin()), so_pin_(config.so_pin()), token_label_(config.token_label()) {
 
   private_key_ = 0;

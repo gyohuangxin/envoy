@@ -665,12 +665,12 @@ CK_RV SGXContext::rsaSign(CK_OBJECT_HANDLE privkey, CK_OBJECT_HANDLE pubkey, boo
     return CKR_ARGUMENTS_BAD;
   }
 
-  if (ispss) {
-    CK_RSA_PKCS_PSS_PARAMS params[] = {{CKM_SHA224, CKG_MGF1_SHA224, 28},
-                                       {CKM_SHA256, CKG_MGF1_SHA256, 32},
-                                       {CKM_SHA384, CKG_MGF1_SHA384, 0},
-                                       {CKM_SHA512, CKG_MGF1_SHA512, 0}};
+  CK_RSA_PKCS_PSS_PARAMS params[] = {{CKM_SHA224, CKG_MGF1_SHA224, 28},
+                                                                        {CKM_SHA256, CKG_MGF1_SHA256, 32},
+                                                                        {CKM_SHA384, CKG_MGF1_SHA384, 0},
+                                                                        {CKM_SHA512, CKG_MGF1_SHA512, 0}};
 
+  if (ispss) {
     int param_index = -1;
     switch (hash) {
     case 224: {
@@ -731,17 +731,6 @@ CK_RV SGXContext::rsaSign(CK_OBJECT_HANDLE privkey, CK_OBJECT_HANDLE pubkey, boo
   mechanism.mechanism = mechanismType;
   mechanism.pParameter = param;
   mechanism.ulParameterLen = paramLen;
-
-  ENVOY_LOG_TO_LOGGER(Logger::Registry::getLog(Logger::Id::secret), debug, "mechanism.mechanism {}",
-                      mechanism.mechanism);
-  ENVOY_LOG_TO_LOGGER(Logger::Registry::getLog(Logger::Id::secret), debug, "mechanism.paramLen {}",
-                      mechanism.ulParameterLen);
-  ENVOY_LOG_TO_LOGGER(Logger::Registry::getLog(Logger::Id::secret), debug,
-                      "mechanism.pParameter.hashAlg {}",
-                      CK_RSA_PKCS_PSS_PARAMS_PTR(mechanism.pParameter)->hashAlg);
-  ENVOY_LOG_TO_LOGGER(Logger::Registry::getLog(Logger::Id::secret), debug,
-                      "mechanism.pParameter.mgf {}",
-                      CK_RSA_PKCS_PSS_PARAMS_PTR(mechanism.pParameter)->mgf);
 
   status = p11_->C_SignInit(sessionhandle_, &mechanism, privkey);
 

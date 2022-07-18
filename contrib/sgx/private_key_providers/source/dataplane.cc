@@ -180,16 +180,22 @@ ssl_private_key_result_t ecdsaSignWithSgx(SSL* ssl, uint8_t* out, size_t* out_le
   signature.bytes = nullptr;
   signature.byte_size = i2d_ECDSA_SIG(sig, &signature.bytes);
 
+  if (signature.byte_size > max_out) {
+    ECDSA_SIG_free(sig);
+    BN_free(r);
+    BN_free(s);
+    return ssl_private_key_failure;
+  }
+
   ENVOY_LOG_TO_LOGGER(Logger::Registry::getLog(Logger::Id::secret), debug,
                       "sgx private key provider: SGX ecdsa sign der size: {}", signature.byte_size);
 
-  if (signature.byte_size > max_out) {
-    return ssl_private_key_failure;
-  }
   memcpy(out, signature.bytes, signature.byte_size); // NOLINT(safe-memcpy)
   *out_len = signature.byte_size;
 
   ECDSA_SIG_free(sig);
+  BN_free(r);
+  BN_free(s);
 
   return ssl_private_key_success;
 }
