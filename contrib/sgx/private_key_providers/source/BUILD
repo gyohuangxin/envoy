@@ -21,6 +21,10 @@ envoy_cc_library(
     hdrs = [
         "sgx.h",
         "sgx_private_key_provider.h",
+        "cryptoki.h",
+        "pkcs11.h",
+        "pkcs11f.h",
+        "pkcs11t.h",
         "utility.h",
     ],
     external_deps = ["ssl"],

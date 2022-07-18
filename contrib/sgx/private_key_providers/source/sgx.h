@@ -1,8 +1,6 @@
 #pragma once
 
-#include <cryptoki.h>
 #include <dlfcn.h>
-#include <sgx_pce.h>
 
 #include <cstring>
 #include <string>
@@ -14,6 +12,7 @@
 #include "source/common/common/logger.h"
 
 #include "contrib/sgx/private_key_providers/source/utility.h"
+#include "contrib/sgx/private_key_providers/source/cryptoki.h"
 #include "openssl/rsa.h"
 #include "openssl/ssl.h"
 
