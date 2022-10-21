@@ -271,12 +271,12 @@ void SgxPrivateKeyMethodProvider::unregisterPrivateKeyMethod(SSL* ssl) {
 void SgxPrivateKeyMethodProvider::initialize() {
   CK_RV status = sgx_context_->sgxInit();
   if (status != CKR_OK) {
-    throw EnvoyException("Failed to initialize sgx enclave.");
+    throw EnvoyException("Failed to initialize sgx enclave: {}", status);
   }
 
   status = sgx_context_->findKeyPair(&private_key_, &public_key_, key_label_);
   if (status != CKR_OK) {
-    throw EnvoyException("Failed to find key pair in sgx.");
+    throw EnvoyException("Failed to find key pair in sgx: {}", status);
   }
 }
 
