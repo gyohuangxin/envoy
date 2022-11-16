@@ -445,6 +445,10 @@ void InstanceImpl::initialize(Network::Address::InstanceConstSharedPtr local_add
               absl::StrJoin(info.registered_headers_, ","));
   }
 
+  envoy::extensions::regex_engines::hyperscan::v3alpha::Hyperscan hscan;
+  bootstrap_.mutable_default_regex_engine()->set_name("envoy.regex_engines.hyperscan");
+  bootstrap_.mutable_default_regex_engine()->mutable_typed_config()->CopyFrom(hscan);
+
   // Initialize the regex engine and inject to singleton.
   // Needs to happen before stats store initialization because the stats
   // matcher config can include regexes.

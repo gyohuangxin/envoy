@@ -30,9 +30,7 @@ envoy_cmake(
         "RAGEL": "$EXT_BUILD_DEPS/ragel/bin/ragel",
     },
     env = select({
-        "//bazel:clang_build": {
-            "CXXFLAGS": "-Wno-error=unused-but-set-variable -Wno-error=bitwise-instead-of-logical",
-        },
+        "//bazel:clang_build": {},
         "//conditions:default": {},
     }),
     lib_source = "@io_hyperscan//:all",
