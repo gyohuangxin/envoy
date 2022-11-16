@@ -25,9 +25,6 @@
 #include "envoy/stats/stats.h"
 #include "envoy/upstream/cluster_manager.h"
 
-#include "contrib/envoy/extensions/regex_engines/hyperscan/v3alpha/hyperscan.pb.h"
-#include "contrib/envoy/extensions/regex_engines/hyperscan/v3alpha/hyperscan.pb.validate.h"
-
 #include "source/common/api/api_impl.h"
 #include "source/common/api/os_sys_calls_impl.h"
 #include "source/common/common/enum_to_int.h"
