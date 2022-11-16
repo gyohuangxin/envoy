@@ -1,7 +1,6 @@
 load(
     "//bazel:envoy_build_system.bzl",
     "envoy_cc_library",
-    "envoy_cc_contrib_extension",
     "envoy_package",
     "envoy_proto_library",
     "envoy_select_enable_http3",
@@ -707,36 +706,4 @@ envoy_cc_library(
         "//envoy/server:filter_config_interface",
         "@envoy_api//envoy/config/listener/v3:pkg_cc_proto",
     ],
-)
-
-envoy_cc_library(
-    name = "regex_lib",
-    srcs = ["regex.cc"],
-    hdrs = ["regex.h"],
-    deps = [
-        "//contrib/hyperscan/matching/input_matchers/source:matcher_lib",
-        "//envoy/common:regex_interface",
-    ],
-)
-
-envoy_cc_contrib_extension(
-    name = "config",
-    srcs = ["config.cc"],
-    hdrs = ["config.h"],
-    defines = select({
-        "//bazel:linux_x86_64": [],
-        "//conditions:default": [
-            "HYPERSCAN_DISABLED=1",
-        ],
-    }),
-    deps = [
-        "//envoy/common:regex_interface",
-        "@envoy_api//contrib/envoy/extensions/regex_engines/hyperscan/v3alpha:pkg_cc_proto",
-    ] + select({
-        "//bazel:linux_x86_64": [
-            ":regex_lib",
-        ],
-        "//conditions:default": [
-        ],
-    }),
 )
