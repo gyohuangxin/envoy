@@ -70,6 +70,7 @@ bool Matcher::match(absl::string_view value) const {
         bool* matched = static_cast<bool*>(context);
         *matched = true;
 
+        IS_ENVOY_BUG(fmt::format("DEBUG!!! Matched Hyperscan {}", value.data()));
         // Non-zero if the matching should cease. Always terminate on the first match.
         return 1;
       },
