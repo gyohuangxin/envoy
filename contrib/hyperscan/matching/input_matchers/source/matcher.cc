@@ -70,7 +70,7 @@ bool Matcher::match(absl::string_view value) const {
         bool* matched = static_cast<bool*>(context);
         *matched = true;
 
-        ENVOY_LOG(debug, "DEBUG!!! Matched Hyperscan");
+        IS_ENVOY_BUG(fmt::format("DEBUG!!! Matched Hyperscan"));
         // Non-zero if the matching should cease. Always terminate on the first match.
         return 1;
       },
@@ -94,7 +94,7 @@ std::string Matcher::replaceAll(absl::string_view value, absl::string_view subst
         bounds->push_back({from, to});
 
         // Continue searching.
-        ENVOY_LOG(debug, "DEBUG!!! Matched Hyperscan");
+        IS_ENVOY_BUG(fmt::format("DEBUG!!! Matched Hyperscan"));
         return 0;
       },
       &bounds);
@@ -128,7 +128,7 @@ bool Matcher::match(absl::optional<absl::string_view> input) {
     return false;
   }
 
-  ENVOY_LOG(debug, "DEBUG!!! Matched Hyperscan");
+  IS_ENVOY_BUG(fmt::format("DEBUG!!! Matched Hyperscan"));
   return static_cast<Envoy::Regex::CompiledMatcher*>(this)->match(*input);
 }
 
