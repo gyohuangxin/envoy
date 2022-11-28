@@ -12,7 +12,7 @@ Envoy::Regex::CompiledMatcherPtr HyperscanEngine::matcher(const std::string& reg
   std::vector<unsigned int> flags{HS_FLAG_UTF8};
   std::vector<unsigned int> ids{0};
 
-  IS_ENVOY_BUG(fmt::format("DEBUG!!! Matched Hyperscan"));
+  ENVOY_LOG(debug, "DEBUG!!! Matched Hyperscan");
   return std::make_unique<Matching::InputMatchers::Hyperscan::Matcher>(expressions, flags, ids,
                                                                        tls_, true);
 }
