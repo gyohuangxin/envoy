@@ -1,4 +1,5 @@
 #include "contrib/hyperscan/matching/input_matchers/source/matcher.h"
+#include "source/common/common/logger.h"
 
 namespace Envoy {
 namespace Extensions {
