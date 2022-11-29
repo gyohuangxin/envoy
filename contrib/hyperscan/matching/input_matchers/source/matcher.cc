@@ -1,5 +1,4 @@
 #include "contrib/hyperscan/matching/input_matchers/source/matcher.h"
-#include "source/common/common/logger.h"
 
 namespace Envoy {
 namespace Extensions {
@@ -10,7 +9,7 @@ namespace Hyperscan {
 ScratchThreadLocal::ScratchThreadLocal(const hs_database_t* database,
                                        const hs_database_t* start_of_match_database) {
   hs_error_t err = hs_alloc_scratch(database, &scratch_);
-  ENVOY_LOG(debug, "Debug!! Start HSCAN!");
+  ENVOY_LOG_MISC(debug, "Debug!! Started HSCAN!");
   if (err != HS_SUCCESS) {
     IS_ENVOY_BUG(fmt::format("unable to allocate scratch space, error code {}.", err));
   }
@@ -76,7 +75,7 @@ bool Matcher::match(absl::string_view value) const {
         return 1;
       },
       &matched);
-  ENVOY_LOG(debug, "Debug!! Matched HSCAN!");
+  ENVOY_LOG_MISC(debug, "Debug!! Matched HSCAN!");
   if (err != HS_SUCCESS && err != HS_SCAN_TERMINATED) {
     IS_ENVOY_BUG(fmt::format("unable to scan, error code {}", err));
   }
@@ -99,7 +98,7 @@ std::string Matcher::replaceAll(absl::string_view value, absl::string_view subst
         return 0;
       },
       &bounds);
-  ENVOY_LOG(debug, "Debug!! Matched HSCAN!");
+  ENVOY_LOG_MISC(debug, "Debug!! Matched HSCAN!");
   if (err != HS_SUCCESS && err != HS_SCAN_TERMINATED) {
     IS_ENVOY_BUG(fmt::format("unable to scan, error code {}", err));
     return std::string(value);
@@ -140,7 +139,7 @@ void Matcher::compile(const std::vector<const char*>& expressions,
   hs_error_t err =
       hs_compile_multi(expressions.data(), flags.data(), ids.data(), expressions.size(),
                        HS_MODE_BLOCK, nullptr, database, &compile_err);
-  ENVOY_LOG(debug, "Debug!! Compile HSCAN!");
+  ENVOY_LOG_MISC(debug, "Debug!! Matched Compile HSCAN!");
   if (err != HS_SUCCESS) {
     std::string compile_err_message(compile_err->message);
     int compile_err_expression = compile_err->expression;

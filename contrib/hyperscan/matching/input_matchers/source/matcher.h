@@ -3,7 +3,6 @@
 #include "envoy/common/regex.h"
 #include "envoy/matcher/matcher.h"
 #include "envoy/thread_local/thread_local.h"
-#include "source/common/common/logger.h"
 
 #include "hs/hs.h"
 
