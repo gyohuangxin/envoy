@@ -97,7 +97,7 @@ std::string Matcher::replaceAll(absl::string_view value, absl::string_view subst
       },
       &bounds);
   IS_ENVOY_BUG("Debug!! Matched HSCAN");
-  cout << "Debug!! Matched HSCAN";
+  std::cout << "Debug!! Matched HSCAN";
   if (err != HS_SUCCESS && err != HS_SCAN_TERMINATED) {
     IS_ENVOY_BUG(fmt::format("unable to scan, error code {}", err));
     return std::string(value);
