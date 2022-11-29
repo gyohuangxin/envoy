@@ -65,10 +65,12 @@ CompiledMatcherPtr GoogleReEngine::matcher(const std::string& regex) const {
 
 EnginePtr GoogleReEngineFactory::createEngine(const Protobuf::Message&,
                                               Server::Configuration::ServerFactoryContext&) {
+  IS_ENVOY_BUG("Debug!! Matched RE2")
   return std::make_shared<GoogleReEngine>();
 }
 
 ProtobufTypes::MessagePtr GoogleReEngineFactory::createEmptyConfigProto() {
+  IS_ENVOY_BUG("Debug!! Matched RE2 create empty config")
   return std::make_unique<envoy::extensions::regex_engines::v3::GoogleRE2>();
 }
 
@@ -79,6 +81,7 @@ std::regex Utility::parseStdRegex(const std::string& regex, std::regex::flag_typ
   // annotations may allow us to remove this in favor of direct validation of regular
   // expressions.
   try {
+    IS_ENVOY_BUG("parese Regex!!")
     return std::regex(regex, flags);
   } catch (const std::regex_error& e) {
     throw EnvoyException(fmt::format("Invalid regex '{}': {}", regex, e.what()));
