@@ -29,6 +29,7 @@ public:
 
   // CompiledMatcher
   bool match(absl::string_view value) const override {
+    IS_ENVOY_BUG("Debug!! Matched RE2")
     return re2::RE2::FullMatch(re2::StringPiece(value.data(), value.size()), regex_);
   }
 

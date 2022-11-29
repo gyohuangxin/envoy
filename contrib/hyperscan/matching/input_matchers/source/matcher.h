@@ -37,9 +37,11 @@ public:
 
   // Envoy::Regex::CompiledMatcher
   bool match(absl::string_view value) const override;
+  IS_ENVOY_BUG("Debug!! Matched HSCAN")
   std::string replaceAll(absl::string_view value, absl::string_view substitution) const override;
 
   // Envoy::Matcher::InputMatcher
+  IS_ENVOY_BUG("Debug!! Matched HSCAN")
   bool match(absl::optional<absl::string_view> input) override;
 
 private:
