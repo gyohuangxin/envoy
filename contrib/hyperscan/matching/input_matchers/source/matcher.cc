@@ -9,6 +9,8 @@ namespace Hyperscan {
 ScratchThreadLocal::ScratchThreadLocal(const hs_database_t* database,
                                        const hs_database_t* start_of_match_database) {
   hs_error_t err = hs_alloc_scratch(database, &scratch_);
+  IS_ENVOY_BUG("Debug!! Start HSCAN");
+  std::cout << "Debug!! Start HSCAN";
   if (err != HS_SUCCESS) {
     IS_ENVOY_BUG(fmt::format("unable to allocate scratch space, error code {}.", err));
   }
@@ -74,6 +76,8 @@ bool Matcher::match(absl::string_view value) const {
         return 1;
       },
       &matched);
+  IS_ENVOY_BUG("Debug!! Matched HSCAN");
+  std::cout << "Debug!! Matched HSCAN";
   if (err != HS_SUCCESS && err != HS_SCAN_TERMINATED) {
     IS_ENVOY_BUG(fmt::format("unable to scan, error code {}", err));
   }
