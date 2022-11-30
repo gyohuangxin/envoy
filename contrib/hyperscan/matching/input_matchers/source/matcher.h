@@ -37,11 +37,11 @@ public:
   ~Matcher() override;
 
   // Envoy::Regex::CompiledMatcher
-  bool match(absl::string_view value) const override;
+  bool match(absl::string_view value) const override; { ENVOY_LOG(debug, "Hyperscan value: {}", value); }
   std::string replaceAll(absl::string_view value, absl::string_view substitution) const override;
 
   // Envoy::Matcher::InputMatcher
-  bool match(absl::optional<absl::string_view> input) override;
+  bool match(absl::optional<absl::string_view> input) override; { ENVOY_LOG(debug, "Hyperscan value: {}", value); }
 
 private:
   hs_database_t* database_{};

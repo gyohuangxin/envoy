@@ -44,6 +44,7 @@ Matcher::Matcher(const std::vector<const char*>& expressions,
   compile(expressions, flags, ids, &database_);
 
   // Compile start of match database which will report start of matching, works for replaceAll.
+  ENVOY_LOG(debug, "Debug!! Complile HSCAN!");
   if (report_start_of_matching) {
     std::vector<unsigned int> start_of_match_flags = flags;
     for (unsigned int& start_of_match_flag : start_of_match_flags) {
@@ -65,6 +66,7 @@ Matcher::~Matcher() {
 bool Matcher::match(absl::string_view value) const {
   bool matched = false;
   hs_scratch_t* scratch = tls_->get()->scratch_;
+  ENVOY_LOG(debug, "Debug!! Matched HSCAN!");
   hs_error_t err = hs_scan(
       database_, value.data(), value.size(), 0, scratch,
       [](unsigned int, unsigned long long, unsigned long long, unsigned int, void* context) -> int {
@@ -75,7 +77,6 @@ bool Matcher::match(absl::string_view value) const {
         return 1;
       },
       &matched);
-  ENVOY_LOG(debug, "Debug!! Matched HSCAN!");
   if (err != HS_SUCCESS && err != HS_SCAN_TERMINATED) {
     IS_ENVOY_BUG(fmt::format("unable to scan, error code {}", err));
   }
@@ -87,6 +88,7 @@ std::string Matcher::replaceAll(absl::string_view value, absl::string_view subst
   // Find matched bounds.
   std::vector<Bound> bounds;
   hs_scratch_t* scratch_ = tls_->get()->scratch_;
+  ENVOY_LOG(debug, "Debug!! Matched HSCAN!");
   hs_error_t err = hs_scan(
       start_of_match_database_, value.data(), value.size(), 0, scratch_,
       [](unsigned int, unsigned long long from, unsigned long long to, unsigned int,
@@ -98,7 +100,6 @@ std::string Matcher::replaceAll(absl::string_view value, absl::string_view subst
         return 0;
       },
       &bounds);
-  ENVOY_LOG(debug, "Debug!! Matched HSCAN!");
   if (err != HS_SUCCESS && err != HS_SCAN_TERMINATED) {
     IS_ENVOY_BUG(fmt::format("unable to scan, error code {}", err));
     return std::string(value);
@@ -129,6 +130,7 @@ bool Matcher::match(absl::optional<absl::string_view> input) {
     return false;
   }
 
+  ENVOY_LOG(debug, "Debug!! Matched Compile HSCAN!");
   return static_cast<Envoy::Regex::CompiledMatcher*>(this)->match(*input);
 }
 
