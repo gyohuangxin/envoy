@@ -9,6 +9,7 @@ namespace Hyperscan {
 ScratchThreadLocal::ScratchThreadLocal(const hs_database_t* database,
                                        const hs_database_t* start_of_match_database) {
   hs_error_t err = hs_alloc_scratch(database, &scratch_);
+  ENVOY_LOG(debug, "DEBUG!!! Allocate Hyperscan");
   if (err != HS_SUCCESS) {
     IS_ENVOY_BUG(fmt::format("unable to allocate scratch space, error code {}.", err));
   }
@@ -39,6 +40,7 @@ Matcher::Matcher(const std::vector<const char*>& expressions,
   ASSERT(expressions.size() == flags.size());
   ASSERT(expressions.size() == ids.size());
 
+  ENVOY_LOG(debug, "DEBUG!!! Matched Hyperscan");
   // Compile database.
   compile(expressions, flags, ids, &database_);
 
@@ -63,6 +65,7 @@ Matcher::~Matcher() {
 
 bool Matcher::match(absl::string_view value) const {
   bool matched = false;
+  ENVOY_LOG(debug, "DEBUG!!! Matched Hyperscan");
   hs_scratch_t* scratch = tls_->get()->scratch_;
   hs_error_t err = hs_scan(
       database_, value.data(), value.size(), 0, scratch,
@@ -96,6 +99,7 @@ std::string Matcher::replaceAll(absl::string_view value, absl::string_view subst
         return 0;
       },
       &bounds);
+  ENVOY_LOG(debug, "DEBUG!!! Scan Hyperscan");
   if (err != HS_SUCCESS && err != HS_SCAN_TERMINATED) {
     IS_ENVOY_BUG(fmt::format("unable to scan, error code {}", err));
     return std::string(value);

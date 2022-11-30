@@ -4,13 +4,14 @@
 
 #include "contrib/envoy/extensions/regex_engines/hyperscan/v3alpha/hyperscan.pb.h"
 #include "contrib/envoy/extensions/regex_engines/hyperscan/v3alpha/hyperscan.pb.validate.h"
+#include "source/common/common/logger.h"
 
 namespace Envoy {
 namespace Extensions {
 namespace Regex {
 namespace Hyperscan {
 
-class Config : public Envoy::Regex::EngineFactory {
+class Config : public Envoy::Regex::EngineFactory, public Logger::Loggable<Logger::Id::connection>  {
 public:
   // Regex::EngineFactory
   Envoy::Regex::EnginePtr

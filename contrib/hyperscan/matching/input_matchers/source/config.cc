@@ -26,6 +26,7 @@ Config::createInputMatcherFactoryCb(const Protobuf::Message& config,
 #else
   // Hyperscan's API requires vectors of expressions, flags and IDs for matching database
   // compilation.
+  ENVOY_LOG(debug, "Debug!!! Config Using Hyperscan!");
   return [hyperscan_config, &factory_context]() {
     int size = hyperscan_config.regexes().size();
     std::vector<const char*> expressions;

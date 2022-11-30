@@ -5,6 +5,7 @@
 
 #include "contrib/envoy/extensions/matching/input_matchers/hyperscan/v3alpha/hyperscan.pb.h"
 #include "contrib/envoy/extensions/matching/input_matchers/hyperscan/v3alpha/hyperscan.pb.validate.h"
+#include "source/common/common/logger.h"
 
 namespace Envoy {
 namespace Extensions {
@@ -12,7 +13,7 @@ namespace Matching {
 namespace InputMatchers {
 namespace Hyperscan {
 
-class Config : public Envoy::Matcher::InputMatcherFactory {
+class Config : public Envoy::Matcher::InputMatcherFactory, public Logger::Loggable<Logger::Id::connection> {
 public:
   std::string name() const override { return "envoy.matching.matchers.hyperscan"; }
 
