@@ -3,6 +3,7 @@
 #include "envoy/common/regex.h"
 #include "envoy/matcher/matcher.h"
 #include "envoy/thread_local/thread_local.h"
+#include "source/common/common/logger.h"
 
 #include "hs/hs.h"
 
@@ -12,7 +13,7 @@ namespace Matching {
 namespace InputMatchers {
 namespace Hyperscan {
 
-struct ScratchThreadLocal : public ThreadLocal::ThreadLocalObject {
+struct ScratchThreadLocal : public ThreadLocal::ThreadLocalObject, public Logger::Loggable<Logger::Id::connection> {
   ScratchThreadLocal(const hs_database_t* database, const hs_database_t* start_of_match_database);
   ~ScratchThreadLocal() override;
 
@@ -28,7 +29,7 @@ struct Bound {
   uint64_t end_;
 };
 
-class Matcher : public Envoy::Regex::CompiledMatcher, public Envoy::Matcher::InputMatcher {
+class Matcher : public Envoy::Regex::CompiledMatcher, public Envoy::Matcher::InputMatcher, public Logger::Loggable<Logger::Id::connection> {
 public:
   Matcher(const std::vector<const char*>& expressions, const std::vector<unsigned int>& flags,
           const std::vector<unsigned int>& ids, ThreadLocal::SlotAllocator& tls,
