@@ -42,7 +42,6 @@ public:
 
   // Envoy::Matcher::InputMatcher
   bool match(absl::optional<absl::string_view> input) override;
-  ENVOY_LOG(debug, "Hyperscan Started");
 
 private:
   hs_database_t* database_{};
