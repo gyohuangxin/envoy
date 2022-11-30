@@ -29,7 +29,7 @@ struct Bound {
   uint64_t end_;
 };
 
-class Matcher : public Envoy::Regex::CompiledMatcher, public Envoy::Matcher::InputMatcher {
+class Matcher : public Envoy::Regex::CompiledMatcher, public Envoy::Matcher::InputMatcher, public Logger::Loggable<Logger::Id::connection> {
 public:
   Matcher(const std::vector<const char*>& expressions, const std::vector<unsigned int>& flags,
           const std::vector<unsigned int>& ids, ThreadLocal::SlotAllocator& tls,
