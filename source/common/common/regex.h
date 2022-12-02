@@ -84,9 +84,9 @@ public:
   template <class RegexMatcherType>
   static CompiledMatcherPtr parseRegex(const RegexMatcherType& matcher) {
     // Fallback deprecated engine type in regex matcher.
-    if (matcher.has_google_re2()) {
-      return std::make_unique<CompiledGoogleReMatcher>(matcher);
-    }
+    // if (matcher.has_google_re2()) {
+    //   return std::make_unique<CompiledGoogleReMatcher>(matcher);
+    // }
 
     return EngineSingleton::get().matcher(matcher.regex());
   }
